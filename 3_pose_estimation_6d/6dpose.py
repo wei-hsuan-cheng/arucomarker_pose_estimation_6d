@@ -26,14 +26,14 @@ param_markers = aruco.DetectorParameters()
 
 cap = cv.VideoCapture(1)
 
+# Open csv file to store pose estimation
+pose_save = open(f"{DIR}/pose_data.csv", 'w')
+writer = csv.writer(pose_save) # create csv writer
+
 def main():
     times = np.array([[0]])
 
-    main_loop = time() # return time in [s]
-    
-    # Open csv file to store pose estimation
-    pose_save = open(f"{DIR}/pose_data.csv", 'w')
-    writer = csv.writer(pose_save) # create csv writer
+    main_loop_start = time() # return starting time in [s]
 
     # Save marker pose
     writer.writerow(['x', 'y', 'z', 'rx', 'ry', 'rz'])
@@ -46,6 +46,9 @@ def main():
         if not ret:
             break
         gray_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+
+        # print(gray_frame.shape[::-1]) # 640 x 480 [pixels]
+
         marker_corners, marker_IDs, reject = aruco.detectMarkers(
             gray_frame, marker_dict, parameters=param_markers
         )
@@ -167,6 +170,8 @@ def main():
 
                 # print(ids, "  ", corners)
         
+        main_loop_end = time() # return ending time in [s]
+
         t2 = time()
         # print(t2 - t1)
         times = np.vstack((
@@ -178,7 +183,8 @@ def main():
         key = cv.waitKey(1)
         if key == ord("q"):
             print("\n\n")
-            print(f"avg sampling time: {np.array(times).mean() * 1000} [ms]")
+            print(f"rgb- total time: {main_loop_end - main_loop_start} [s]")
+            print(f"rgb- avg sampling time: {np.array(times).mean() * 1000} [ms]")
             break
             
 
