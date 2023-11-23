@@ -152,7 +152,7 @@ def main():
                 # Marker orientation
                 cv.putText(
                     frame, 
-                    f"orientation (se(3) vector)= ({round(aruco_rvecs[i][0][0],2)}, {round(aruco_rvecs[i][0][1],2)}, {round(aruco_rvecs[i][0][2],2)})",
+                    f"orientation (so(3) vector)= ({round(aruco_rvecs[i][0][0],2)}, {round(aruco_rvecs[i][0][1],2)}, {round(aruco_rvecs[i][0][2],2)})",
                     bottom_left + (0, 50),
                     cv.FONT_HERSHEY_COMPLEX_SMALL,
                     0.7,
